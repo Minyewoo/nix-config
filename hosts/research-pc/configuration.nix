@@ -57,6 +57,7 @@
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true;
+    nvidiaSettings = true;
   };
 
   hardware.pulseaudio.enable = true;
@@ -66,8 +67,8 @@
   programs.dconf.enable = true;
 
   environment.systemPackages = with pkgs; [
-    gnome.gnome-tweaks
     gnome.nautilus
+    evince
     steam
   ];
 

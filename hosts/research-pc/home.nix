@@ -6,11 +6,22 @@
     username = "minyewoo";
     homeDirectory = "/home/${username}";
 
+    shellAliases = {
+      code = "codium";
+    };
+
     packages = with pkgs; [
+      qbittorrent
+      vlc
+      libreoffice
+      hunspell
+      hunspellDicts.en_US
+      hunspellDicts.ru_RU
+      discord
       bottles
       parsec-bin
       fastfetch
-      jre8
+      jre_minimal
       ocrmypdf
       gnomeExtensions.dash-to-dock
       flutter
@@ -89,6 +100,7 @@
       extensions = with pkgs.vscode-extensions; [
         jnoortheen.nix-ide
         dart-code.flutter
+        dart-code.dart-code
         rust-lang.rust-analyzer
       ];
     };
