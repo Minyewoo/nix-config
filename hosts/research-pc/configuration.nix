@@ -82,6 +82,7 @@
   programs.dconf.enable = true;
 
   environment.systemPackages = with pkgs; [
+    gnome.gnome-disk-utility
     gnome.nautilus
     evince
     steam
