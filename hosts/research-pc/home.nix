@@ -19,10 +19,14 @@
     };
 
     packages = (with pkgs; [
+      woeusb
       libreoffice
       hunspell
       hunspellDicts.en_US
       hunspellDicts.ru_RU
+      ocrmypdf
+      qbittorrent
+      vlc
       discord
       bottles
       parsec-bin
