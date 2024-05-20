@@ -2,14 +2,12 @@
 {
   options = {
     gitUserName = lib.mkOption {
-      # default = "Minyewoo";
       type = lib.types.string;
       description = ''
         Name of your git user
       '';
     };
     gitUserEmail = lib.mkOption {
-      # default = "Minyewoo";
       type = lib.types.string;
       description = ''
         Email of your git user
