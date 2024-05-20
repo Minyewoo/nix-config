@@ -1,5 +1,13 @@
 { config, pkgs, inputs, ... }:
 {
+  imports = [
+    ../../modules/home-manager/development/vscode.nix
+    ../../modules/home-manager/development/git.nix
+  ];
+
+  gitUserName = "Minyewoo";
+  gitUserEmail = "const.trushov@gmail.com";
+
   nixpkgs.config.allowUnfree = true;
 
   home = rec {
@@ -10,9 +18,7 @@
       code = "codium";
     };
 
-    packages = with pkgs; [
-      qbittorrent
-      vlc
+    packages = (with pkgs; [
       libreoffice
       hunspell
       hunspellDicts.en_US
@@ -22,14 +28,13 @@
       parsec-bin
       fastfetch
       jre_minimal
-      ocrmypdf
       gnomeExtensions.dash-to-dock
       flutter
       cargo
       rustc
       telegram-desktop
       spotify
-    ];
+    ]);
 
     file = {
 
@@ -48,17 +53,11 @@
 
   gtk = {
     enable = true;
-
     gtk3.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
+      gtk-application-prefer-dark-theme = true;
     };
-
     gtk4.extraConfig = {
-      Settings = ''
-        gtk-application-prefer-dark-theme=1
-      '';
+      gtk-application-prefer-dark-theme = true;
     };
   };
 
@@ -69,11 +68,9 @@
         "dash-to-dock@micxgx.gmail.com"
       ];
     };
-
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
     };
-
     "org/gnome/desktop/wm/preferences" = {
       button-layout="close,minimize,maximize:appmenu";
     };
@@ -81,28 +78,8 @@
 
   programs = {
     home-manager.enable = true;
-
     bash.enable = true;
-
     alacritty.enable = true;
-
     firefox.enable = true;
-
-    git = {
-      enable = true;
-      userName  = "Minyewoo";
-      userEmail = "const.trushov@gmail.com";
-    };
-
-    vscode = {
-      enable = true;
-      package = pkgs.vscodium;
-      extensions = with pkgs.vscode-extensions; [
-        jnoortheen.nix-ide
-        dart-code.flutter
-        dart-code.dart-code
-        rust-lang.rust-analyzer
-      ];
-    };
   };
 }
