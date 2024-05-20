@@ -6,8 +6,23 @@
       inputs.home-manager.nixosModules.default
     ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    timeout = 5;
+    efi = {
+      efiSysMountPoint = "/boot";
+    };
+    grub = {
+      enable = true;
+      devices = [ "nodev" ];
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      useOSProber = true;
+      minegrub-theme = {
+        enable = true;
+        splash = "100% Flakes!";
+      };
+    };
+  };
 
   networking.hostName = "research-pc";
   networking.networkmanager.enable = true;

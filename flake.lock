@@ -20,6 +20,27 @@
         "type": "github"
       }
     },
+    "minegrub-theme": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1696344261,
+        "narHash": "sha256-Yy3zQufiJ4NjcTbCPEhJ0+4yp1tmjAcApjrnZSDN23M=",
+        "owner": "Lxtharia",
+        "repo": "minegrub-theme",
+        "rev": "ef835b35115ff70b9a1be02a89660bf8b60b721a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Lxtharia",
+        "ref": "ef835b3",
+        "repo": "minegrub-theme",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1714253743,
@@ -39,6 +60,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "minegrub-theme": "minegrub-theme",
         "nixpkgs": "nixpkgs"
       }
     }
