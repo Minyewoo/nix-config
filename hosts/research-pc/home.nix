@@ -1,89 +1,34 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, ... }:
+let 
+  minyewooUsername = "Minyewoo";
+in
 {
   imports = [
     ../../modules/home-manager/development/vscode.nix
     ../../modules/home-manager/development/git.nix
+    ../../modules/home-manager/development/flutter.nix
+    ../../modules/home-manager/development/rust.nix
+    ../../modules/home-manager/development/terminal-related.nix
+    ../../modules/home-manager/customization/gtk.nix
+    ../../modules/home-manager/misc/utilities.nix
+    ../../modules/home-manager/misc/social.nix
+    ../../modules/home-manager/misc/paperwork.nix
+    ../../modules/home-manager/misc/gaming.nix
+    ../../modules/home-manager/misc/music.nix
   ];
 
-  gitUserName = "Minyewoo";
+  gitUserName = minyewooUsername;
   gitUserEmail = "const.trushov@gmail.com";
 
-  nixpkgs.config.allowUnfree = true;
-
-  home = rec {
-    username = "minyewoo";
-    homeDirectory = "/home/${username}";
-
-    shellAliases = {
-      code = "codium";
-    };
-
-    packages = (with pkgs; [
-      woeusb
-      libreoffice
-      hunspell
-      hunspellDicts.en_US
-      hunspellDicts.ru_RU
-      ocrmypdf
-      qbittorrent
-      vlc
-      discord
-      bottles
-      parsec-bin
-      fastfetch
-      jre_minimal
-      gnomeExtensions.dash-to-dock
-      flutter
-      cargo
-      rustc
-      telegram-desktop
-      spotify
-    ]);
-
-    file = {
-
-    };
-
-    sessionVariables = {
-      EDITOR = "codium";
-    };
-
-    sessionPath = [
-      "${homeDirectory}/.cargo/bin"
-    ];
-
+  home = let
+    minyewooUsernameLower = lib.toLower minyewooUsername; 
+  in {
+    username = minyewooUsernameLower;
+    homeDirectory = "/home/${minyewooUsernameLower}";
     stateVersion = "23.11";
-  };
-
-  gtk = {
-    enable = true;
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
-    };
-    gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme = true;
-    };
-  };
-
-  dconf.settings = {
-    "org/gnome/shell" = {
-      disable-user-extensions = false;
-      enabled-extensions = [
-        "dash-to-dock@micxgx.gmail.com"
-      ];
-    };
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
-    "org/gnome/desktop/wm/preferences" = {
-      button-layout="close,minimize,maximize:appmenu";
-    };
   };
 
   programs = {
     home-manager.enable = true;
-    bash.enable = true;
-    alacritty.enable = true;
-    firefox.enable = true;
   };
 }
