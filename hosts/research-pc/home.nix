@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let 
-  minyewooUsername = "Minyewoo";
+  homeUserName = "Minyewoo";
 in
 {
   imports = [
@@ -17,14 +17,14 @@ in
     ../../modules/home-manager/misc/music.nix
   ];
 
-  gitUserName = minyewooUsername;
+  gitUserName = homeUserName;
   gitUserEmail = "const.trushov@gmail.com";
 
   home = let
-    minyewooUsernameLower = lib.toLower minyewooUsername; 
+    homeUserNameLower = lib.toLower homeUserName; 
   in {
-    username = minyewooUsernameLower;
-    homeDirectory = "/home/${minyewooUsernameLower}";
+    username = homeUserNameLower;
+    homeDirectory = "/home/${homeUserNameLower}";
     stateVersion = "23.11";
   };
 
