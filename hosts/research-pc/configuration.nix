@@ -58,7 +58,6 @@ in
 
   services = {
     openvpn = {
-      wantedBy = lib.mkForce [];
       servers = {
         minyewoo2023  = {
           config = '' config /home/${homeUserName}/minyewoo_2023.conf '';
