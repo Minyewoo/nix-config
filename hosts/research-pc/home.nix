@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, ... }:
 let 
   homeUserName = "Minyewoo";
 in

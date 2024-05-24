@@ -1,14 +1,14 @@
-{lib, ...}:
+{lib, config, ...}:
 {
   options = {
     gitUserName = lib.mkOption {
-      type = lib.types.string;
+      type = lib.types.str;
       description = ''
         Name of your git user
       '';
     };
     gitUserEmail = lib.mkOption {
-      type = lib.types.string;
+      type = lib.types.str;
       description = ''
         Email of your git user
       '';
