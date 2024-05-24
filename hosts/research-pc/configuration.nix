@@ -1,13 +1,22 @@
 { config, pkgs, inputs, lib, ... }:
+let 
+  homeUserName = "Minyewoo";
+  homeUserNameLower = "minyewoo";
+in
 {
   imports =
     [
       ./hardware-configuration.nix
+      ../../modules/nixos/boot/grub.nix
+      ../../modules/nixos/boot/minegrub.nix
+      ../../modules/nixos/desktop-environments/gnome.nix
+      ../../modules/nixos/graphics/opengl.nix
+      ../../modules/nixos/graphics/nvidia.nix
+      ../../modules/nixos/i18n/default-locale.nix
+      ../../modules/nixos/i18n/ru-locale.nix
+      ../../modules/nixos/windowing/xserver.nix
       inputs.home-manager.nixosModules.default
     ];
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "research-pc";
   networking.networkmanager.enable = true;
@@ -19,24 +28,9 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  time.timeZone = "Europe/Moscow";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "ru_RU.UTF-8";
-    LC_IDENTIFICATION = "ru_RU.UTF-8";
-    LC_MEASUREMENT = "ru_RU.UTF-8";
-    LC_MONETARY = "ru_RU.UTF-8";
-    LC_NAME = "ru_RU.UTF-8";
-    LC_NUMERIC = "ru_RU.UTF-8";
-    LC_PAPER = "ru_RU.UTF-8";
-    LC_TELEPHONE = "ru_RU.UTF-8";
-    LC_TIME = "ru_RU.UTF-8";
-  };
-
-  users.users.minyewoo = {
+  users.users."${homeUserNameLower}" = {
     isNormalUser = true;
-    description = "Minyewoo";
+    description = homeUserName;
     extraGroups = [ "networkmanager" "wheel" "audio" ];
     packages = with pkgs; [];
   };
@@ -44,56 +38,22 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      minyewoo = import ./home.nix;
+      "${homeUserNameLower}" = import ./home.nix;
     };
-  };
-
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-  };
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true;
   };
 
   hardware.pulseaudio.enable = true;
 
   hardware.bluetooth.enable = true;
 
-  programs.dconf.enable = true;
-
   environment.systemPackages = with pkgs; [
-    gnome.gnome-tweaks
-    gnome.nautilus
     steam
   ];
-
-  services.gnome.core-utilities.enable = false;
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-tour
-  ];
-
-  services.xserver = {
-    enable = true;
-    videoDrivers = [ "nvidia" ];
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-    xkb = {
-      layout = "us";
-      variant = "";  
-    };
-    excludePackages = with pkgs; [
-      xterm
-    ];
-  };
 
   services.openvpn = {
     servers = {
       minyewoo2023  = {
-        config = '' config /home/minyewoo/minyewoo_2023.conf '';
+        config = '' config /home/${homeUserNameLower}/minyewoo_2023.conf '';
         updateResolvConf = true;
       };
     };
