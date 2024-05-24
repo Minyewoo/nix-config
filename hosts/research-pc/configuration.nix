@@ -1,7 +1,7 @@
 { config, pkgs, inputs, lib, ... }:
 let 
-  homeUserName = "Minyewoo";
-  homeUserNameLower = "minyewoo";
+  homeUserDescription = "Minyewoo";
+  homeUserName = lib.toLower homeUserDescription;
 in
 {
   imports =
@@ -15,7 +15,7 @@ in
       ../../modules/nixos/i18n/default-locale.nix
       ../../modules/nixos/i18n/ru-locale.nix
       ../../modules/nixos/windowing/xserver.nix
-      ../../modules/nixos/virtualization/virt-manager.nix
+      ../../modules/nixos/virtualization/pci-passthrough.nix
       inputs.home-manager.nixosModules.default
     ];
 
@@ -29,9 +29,16 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-  users.users."${homeUserNameLower}" = {
+  pciPassthrough = {
+    cpuType = "amd";
+    isNvidiaGpu = true;
+    pciIDs = "10de:1b38";
+    libvirtUsers = [ homeUserName ];
+  };
+
+  users.users."${homeUserName}" = {
     isNormalUser = true;
-    description = homeUserName;
+    description = homeUserDescription;
     extraGroups = [ "networkmanager" "wheel" "audio" ];
     packages = with pkgs; [];
   };
@@ -39,7 +46,7 @@ in
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "${homeUserNameLower}" = import ./home.nix;
+      "${homeUserName}" = import ./home.nix;
     };
   };
 
@@ -54,7 +61,7 @@ in
   services.openvpn = {
     servers = {
       minyewoo2023  = {
-        config = '' config /home/${homeUserNameLower}/minyewoo_2023.conf '';
+        config = '' config /home/${homeUserName}/minyewoo_2023.conf '';
         updateResolvConf = true;
       };
     };
