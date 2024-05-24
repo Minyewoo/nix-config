@@ -9,6 +9,7 @@ in
     ../../modules/home-manager/development/flutter.nix
     ../../modules/home-manager/development/rust.nix
     ../../modules/home-manager/development/terminal-related.nix
+    ../../modules/home-manager/virtualization/virt-manager-connections.nix
     ../../modules/home-manager/customization/gtk.nix
     ../../modules/home-manager/misc/utilities.nix
     ../../modules/home-manager/misc/social.nix
