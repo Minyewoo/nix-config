@@ -51,7 +51,7 @@ in
     };
   };
 
-  hawdware = {
+  hardware = {
     pulseaudio.enable = true;
     bluetooth.enable = true;
   };
