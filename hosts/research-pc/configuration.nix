@@ -15,6 +15,7 @@ in
       ../../modules/nixos/i18n/default-locale.nix
       ../../modules/nixos/i18n/ru-locale.nix
       ../../modules/nixos/windowing/xserver.nix
+      ../../modules/nixos/virtualization/virt-manager.nix
       inputs.home-manager.nixosModules.default
     ];
 
