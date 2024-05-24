@@ -16,31 +16,32 @@ in
       ../../modules/nixos/i18n/ru-locale.nix
       ../../modules/nixos/windowing/xserver.nix
       ../../modules/nixos/virtualization/pci-passthrough.nix
+      ../../modules/nixos/gaming/steam.nix
       inputs.home-manager.nixosModules.default
     ];
 
-  networking.hostName = "research-pc";
-  networking.networkmanager.enable = true;
-  networking.firewall = {
-    enable = false;
+  networking = {
+    hostName = "research-pc";
+    networkmanager.enable = true;
+    firewall.enable = false;
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.allowUnfree = true;
 
-  pciPassthrough = {
-    cpuType = "amd";
-    isNvidiaGpu = true;
-    pciIDs = "10de:1b38";
-    libvirtUsers = [ homeUserName ];
-  };
-
   users.users."${homeUserName}" = {
     isNormalUser = true;
     description = homeUserDescription;
     extraGroups = [ "networkmanager" "wheel" "audio" ];
     packages = with pkgs; [];
+  };
+
+  pciPassthrough = {
+    cpuType = "amd";
+    isNvidiaGpu = true;
+    pciIDs = "10de:1b38";
+    libvirtUsers = [ homeUserName ];
   };
 
   home-manager = {
@@ -50,24 +51,23 @@ in
     };
   };
 
-  hardware.pulseaudio.enable = true;
-
-  hardware.bluetooth.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    steam
-  ];
-
-  services.openvpn = {
-    servers = {
-      minyewoo2023  = {
-        config = '' config /home/${homeUserName}/minyewoo_2023.conf '';
-        updateResolvConf = true;
-      };
-    };
+  hawdware = {
+    pulseaudio.enable = true;
+    bluetooth.enable = true;
   };
 
-  services.openssh.enable = true;
+  services = {
+    openvpn = {
+      wantedBy = lib.mkForce [];
+      servers = {
+        minyewoo2023  = {
+          config = '' config /home/${homeUserName}/minyewoo_2023.conf '';
+          updateResolvConf = true;
+        };
+      };
+    };
+    openssh.enable = true;
+  };
 
   system.stateVersion = "23.11";
 }
