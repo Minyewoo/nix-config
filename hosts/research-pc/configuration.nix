@@ -15,8 +15,10 @@ in
       ../../modules/nixos/i18n/default-locale.nix
       ../../modules/nixos/i18n/ru-locale.nix
       ../../modules/nixos/windowing/xserver.nix
-      ../../modules/nixos/virtualization/pci-passthrough.nix
+      ../../modules/nixos/virtualisation/virt-manager.nix
+      ../../modules/nixos/virtualisation/vfio.nix
       ../../modules/nixos/gaming/steam.nix
+      ../../modules/nixos/ipmi/ipmi.nix
       inputs.home-manager.nixosModules.default
     ];
 
@@ -37,11 +39,17 @@ in
     packages = with pkgs; [];
   };
 
-  pciPassthrough = {
-    cpuType = "amd";
-    isNvidiaGpu = true;
-    pciIDs = "10de:1b38";
-    libvirtUsers = [ homeUserName ];
+  virtualisation = {
+    vfio = {
+      enable = true;
+      IOMMUType = "amd";
+      devices = [ "10de:1b38" ];
+      disableEFIfb = false;
+      blacklistNvidia = false;
+      ignoreMSRs = true;
+      applyACSpatch = false;
+    };
+    virt-manager.br0Interface = "eno1";
   };
 
   home-manager = {
