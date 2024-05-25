@@ -1,7 +1,7 @@
 { config, pkgs, inputs, lib, ... }:
 let 
-  homeUserName = "Minyewoo";
-  homeUserNameLower = "minyewoo";
+  homeUserDescription = "Minyewoo";
+  homeUserName = lib.toLower homeUserDescription;
 in
 {
   imports =
@@ -15,52 +15,66 @@ in
       ../../modules/nixos/i18n/default-locale.nix
       ../../modules/nixos/i18n/ru-locale.nix
       ../../modules/nixos/windowing/xserver.nix
-      ../../modules/nixos/virtualization/virt-manager.nix
+      ../../modules/nixos/virtualisation/virt-manager.nix
+      ../../modules/nixos/virtualisation/vfio.nix
+      ../../modules/nixos/gaming/steam.nix
+      ../../modules/nixos/ipmi/ipmi.nix
       inputs.home-manager.nixosModules.default
     ];
 
-  networking.hostName = "research-pc";
-  networking.networkmanager.enable = true;
-  networking.firewall = {
-    enable = false;
+  networking = {
+    hostName = "research-pc";
+    networkmanager.enable = true;
+    firewall.enable = false;
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.allowUnfree = true;
 
-  users.users."${homeUserNameLower}" = {
+  users.users."${homeUserName}" = {
     isNormalUser = true;
-    description = homeUserName;
+    description = homeUserDescription;
     extraGroups = [ "networkmanager" "wheel" "audio" ];
     packages = with pkgs; [];
+  };
+
+  virtualisation = {
+    vfio = {
+      enable = true;
+      IOMMUType = "amd";
+      devices = [ "10de:1b38" ];
+      disableEFIfb = false;
+      blacklistNvidia = false;
+      ignoreMSRs = true;
+      applyACSpatch = false;
+    };
+    virt-manager.br0Interface = "eno1";
   };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "${homeUserNameLower}" = import ./home.nix;
+      "${homeUserName}" = import ./home.nix;
     };
   };
 
-  hardware.pulseaudio.enable = true;
+  hardware = {
+    pulseaudio.enable = true;
+    bluetooth.enable = true;
+  };
 
-  hardware.bluetooth.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    steam
-  ];
-
-  services.openvpn = {
-    servers = {
-      minyewoo2023  = {
-        config = '' config /home/${homeUserNameLower}/minyewoo_2023.conf '';
-        updateResolvConf = true;
+  services = {
+    openvpn = {
+      servers = {
+        minyewoo2023  = {
+          config = '' config /home/${homeUserName}/minyewoo_2023.conf '';
+          updateResolvConf = true;
+        };
       };
     };
+    openssh.enable = true;
   };
-
-  services.openssh.enable = true;
 
   system.stateVersion = "23.11";
 }

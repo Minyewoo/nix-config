@@ -18,8 +18,10 @@ in
     ../../modules/home-manager/misc/music.nix
   ];
 
-  gitUserName = homeUserName;
-  gitUserEmail = "const.trushov@gmail.com";
+  gitUser = {
+    name = homeUserName;
+    email = "const.trushov@gmail.com";
+  };
 
   home = let
     homeUserNameLower = lib.toLower homeUserName; 

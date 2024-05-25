@@ -1,24 +1,29 @@
 {lib, config, ...}:
+with lib;
+let
+  cfg = config.gitUser;
+in
 {
-  options = {
-    gitUserName = lib.mkOption {
-      type = lib.types.str;
+  options.gitUser = {
+    name = mkOption {
+      type = types.str;
       description = ''
         Name of your git user
       '';
     };
-    gitUserEmail = lib.mkOption {
-      type = lib.types.str;
+    email = mkOption {
+      type = types.str;
       description = ''
         Email of your git user
       '';
     };
   };
+
   config = {
     programs.git = {
       enable = true;
-      userName  = config.gitUserName;
-      userEmail = config.gitUserEmail;
+      userName  = cfg.name;
+      userEmail = cfg.email;
     };
   };
 }
