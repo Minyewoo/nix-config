@@ -16,6 +16,7 @@ in
     ../../modules/home-manager/misc/paperwork.nix
     ../../modules/home-manager/misc/gaming.nix
     ../../modules/home-manager/misc/music.nix
+    ../../modules/home-manager/misc/tex.nix
   ];
 
   gitUser = {
@@ -31,7 +32,10 @@ in
     stateVersion = "23.11";
   };
 
+  tex.enable = true;
+
   programs = {
     home-manager.enable = true;
+    vscode.tex.enable = true;
   };
 }
